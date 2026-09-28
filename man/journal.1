@@ -1,0 +1,204 @@
+.TH JOURNAL 1 "28 September 2026" "Electronic Journal 1.0.0" "User Commands"
+
+.SH NAME
+journal \- электронный журнал преподавателя на Bash
+
+.SH SYNOPSIS
+.B journal
+.br
+.B journal
+[\fICOMMAND\fR] [\fIARGUMENTS\fR]
+
+.SH DESCRIPTION
+.B journal
+\- консольная система электронного журнала, написанная на Bash.
+
+Программа позволяет создавать учетные записи преподавателей,
+курсы и учебные группы, добавлять и удалять студентов,
+ставить оценки и отмечать пропуски занятий.
+
+Поддерживаются поиск студентов, выборки по оценкам,
+импорт и экспорт CSV, резервное копирование и журналирование действий.
+
+Программа имеет интерактивный режим и интерфейс командной строки.
+
+.SH INTERACTIVE MODE
+Для запуска интерактивного режима выполните:
+
+.EX
+journal
+.EE
+
+После запуска доступно меню регистрации и авторизации.
+
+После входа преподаватель может создавать курсы,
+группы и работать с электронным журналом.
+
+.SH OPTIONS
+
+.TP
+.BR \-\-help ", " \-h
+Показать справку.
+
+.TP
+.BR \-\-version ", " \-v
+Показать версию программы.
+
+.TP
+.B \-\-backup
+Создать резервную копию базы данных.
+
+.TP
+.B \-\-list-students USER COURSE GROUP
+Показать список студентов указанной группы.
+
+.TP
+.B \-\-find-student USER COURSE GROUP NAME
+Найти студента по имени или части имени.
+
+.TP
+.B \-\-add-student USER COURSE GROUP NAME
+Добавить студента в указанную группу.
+
+.TP
+.B \-\-set-grade USER COURSE GROUP STUDENT_ID GRADE DATE
+Поставить студенту оценку от 2 до 5.
+
+Дата задается в формате YYYY-MM-DD.
+
+.TP
+.B \-\-set-absence USER COURSE GROUP STUDENT_ID DATE
+Отметить пропуск занятия.
+
+.TP
+.B \-\-export USER COURSE GROUP
+Экспортировать данные группы в CSV.
+
+.SH DATA
+
+Данные программы хранятся в файловой структуре.
+
+Для каждой группы используются три CSV-файла:
+
+.TP
+.B students.csv
+Список студентов.
+
+.TP
+.B grades.csv
+Оценки студентов.
+
+.TP
+.B absences.csv
+Пропуски занятий.
+
+.SH EXAMPLES
+
+Запустить интерактивный режим:
+
+.EX
+journal
+.EE
+
+Показать справку:
+
+.EX
+journal --help
+.EE
+
+Показать студентов:
+
+.EX
+journal --list-students roma "Dangen master" DGB-26
+.EE
+
+Найти студента:
+
+.EX
+journal --find-student roma "Dangen master" DGB-26 Иванов
+.EE
+
+Добавить студента:
+
+.EX
+journal --add-student roma "Dangen master" DGB-26 "Петров Пётр Петрович"
+.EE
+
+Поставить оценку:
+
+.EX
+journal --set-grade roma "Dangen master" DGB-26 123456 5 2026-09-28
+.EE
+
+Отметить пропуск:
+
+.EX
+journal --set-absence roma "Dangen master" DGB-26 123456 2026-09-28
+.EE
+
+Экспортировать CSV:
+
+.EX
+journal --export roma "Dangen master" DGB-26
+.EE
+
+.SH SECURITY
+
+Пароли преподавателей хранятся в виде SHA-256 хеша.
+
+Файлы учетных записей создаются с ограниченными правами доступа.
+
+.SH BACKUP
+
+Команда:
+
+.EX
+journal --backup
+.EE
+
+создает архив базы данных в каталоге backups.
+
+.SH LOGGING
+
+Основные действия программы записываются в файл:
+
+.EX
+logs/journal.log
+.EE
+
+Журнал содержит дату, время и описание операции.
+
+.SH FILES
+
+.TP
+.B data/users/
+Учетные записи преподавателей.
+
+.TP
+.B data/courses/
+Курсы, группы и данные студентов.
+
+.TP
+.B exports/
+Экспортированные CSV-файлы.
+
+.TP
+.B backups/
+Резервные копии.
+
+.TP
+.B logs/journal.log
+Журнал событий.
+
+.SH REQUIREMENTS
+
+Для работы используются Bash и стандартные утилиты Linux,
+включая awk, grep, cut, sha256sum, tar и date.
+
+.SH VERSION
+
+Electronic Journal 1.0.0
+
+.SH AUTHOR
+
+Учебный проект по операционным системам.
